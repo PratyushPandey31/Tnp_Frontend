@@ -312,3 +312,74 @@
 .admin-avatar {
   background-color: #0F172A; /* Makes the admin avatar darker/more distinct */
 }
+
+/* --- New Internship Form Styles --- */
+.form-panel {
+  background-color: var(--bg-white);
+  padding: 2rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-subtle);
+  margin-bottom: 2rem;
+  border-top: 4px solid var(--primary-navy);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, select, textarea {
+  padding: 0.85rem 1rem;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--border-radius-sm);
+  background-color: #F8FAFC;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-blue);
+  background-color: var(--bg-white);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.badge-closed {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary-navy);
+  border: 1px solid #CBD5E1;
+}
+
+.btn-outline:hover {
+  background-color: #F1F5F9;
+}

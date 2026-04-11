@@ -1,11 +1,3 @@
-<div class="recent-section" *ngIf="isSuperAdmin">
-        <div class="section-header">
-          <h2>Pending Access Requests (Super Admin Action)</h2>
-        </div>
-        </div> <div class="table-container"> ```
-
-
-
 <div class="dashboard-layout" *ngIf="!isLoading">
   
   <aside class="sidebar">
@@ -14,15 +6,15 @@
     </div>
     
     <nav class="nav-menu">
-      <a href="#" class="nav-item active">
+      <a (click)="switchView('overview')" class="nav-item" [class.active]="currentView === 'overview'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
         Overview
       </a>
-      <a href="#" class="nav-item">
+      <a class="nav-item" style="cursor: not-allowed; opacity: 0.5;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
         Manage Students
       </a>
-      <a href="#" class="nav-item">
+      <a (click)="switchView('internships')" class="nav-item" [class.active]="currentView === 'internships'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
         Job Drives
       </a>
@@ -57,71 +49,165 @@
     </header>
 
     <div class="content-wrapper">
-      <div class="welcome-section">
-        <h1>Admin Overview</h1>
-        <p>Monitor placement drives, student metrics, and pending system requests.</p>
+      
+      <div *ngIf="currentView === 'overview'">
+        <div class="welcome-section">
+          <h1>Admin Overview</h1>
+          <p>Monitor placement drives, student metrics, and pending system requests.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon blue">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ totalStudents }}</h3>
+              <p>Total Registered Students</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon green">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ activeInternshipsCount }}</h3>
+              <p>Active Job Drives</p>
+            </div>
+          </div>
+          <div class="metric-card" *ngIf="isSuperAdmin">
+            <div class="metric-icon orange">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ pendingApprovalsCount }}</h3>
+              <p>Pending Admin Requests</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-section" *ngIf="isSuperAdmin">
+          <div class="section-header">
+            <h2>Pending Access Requests (Super Admin Action)</h2>
+          </div>
+          <div class="table-container">
+            <table class="clean-table" *ngIf="pendingAdmins.length > 0; else noPending">
+              <thead>
+                <tr>
+                  <th>Applicant Name</th>
+                  <th>Official Email</th>
+                  <th>Requested Role</th>
+                  <th>Designation</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let admin of pendingAdmins">
+                  <td><strong>{{ admin.name }}</strong></td>
+                  <td>{{ admin.email }}</td>
+                  <td>{{ admin.role }}</td>
+                  <td>{{ admin.designation }}</td>
+                  <td>
+                    <button class="btn-small btn-success" (click)="approveUser(admin.id)">Approve</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #noPending>
+              <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                All admin requests have been processed. Systems secure.
+              </div>
+            </ng-template>
+          </div>
+        </div>
       </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon blue">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+      <div *ngIf="currentView === 'internships'">
+        <div class="section-header" style="margin-bottom: 2rem;">
+          <div>
+            <h1>Job Drives & Internships</h1>
+            <p>Manage campus recruitment opportunities.</p>
           </div>
-          <div class="metric-data">
-            <h3>{{ totalStudents }}</h3>
-            <p>Total Registered Students</p>
-          </div>
+          <button class="btn btn-primary" (click)="toggleInternshipForm()">
+            {{ showInternshipForm ? 'Cancel Creation' : '+ Post New Opportunity' }}
+          </button>
         </div>
-        <div class="metric-card">
-          <div class="metric-icon green">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ activeInternshipsCount }}</h3>
-            <p>Active Job Drives</p>
-          </div>
+
+        <div class="form-panel" *ngIf="showInternshipForm">
+          <h3 style="margin-bottom: 1.5rem; color: var(--primary-navy);">Post New Internship</h3>
+          <form [formGroup]="internshipForm" (ngSubmit)="submitInternship()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" formControlName="company" placeholder="e.g. Google, TCS">
+              </div>
+              <div class="form-group">
+                <label>Job Role</label>
+                <input type="text" formControlName="role" placeholder="e.g. SDE Intern">
+              </div>
+              <div class="form-group">
+                <label>Stipend / CTC</label>
+                <input type="text" formControlName="stipend" placeholder="e.g. 50,000 INR/month">
+              </div>
+              <div class="form-group">
+                <label>Eligibility Criteria</label>
+                <input type="text" formControlName="eligibility" placeholder="e.g. Min 7.0 CGPA, No Active ATKT">
+              </div>
+              <div class="form-group">
+                <label>Application Deadline</label>
+                <input type="date" formControlName="deadline">
+              </div>
+              <div class="form-group">
+                <label>Initial Status</label>
+                <select formControlName="status">
+                  <option value="OPEN">Open for Applications</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label>Full Job Description</label>
+                <textarea formControlName="description" rows="4" placeholder="Enter role responsibilities and required skills..."></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="isPostingJob" style="margin-top: 1rem;">
+              {{ isPostingJob ? 'Publishing...' : 'Publish Job Drive' }}
+            </button>
+          </form>
         </div>
-        <div class="metric-card" *ngIf="isSuperAdmin">
-          <div class="metric-icon orange">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ pendingApprovalsCount }}</h3>
-            <p>Pending Admin Requests</p>
-          </div>
-        </div>
-      </div>
-      <div class="recent-section" *ngIf="isSuperAdmin">
-        <div class="section-header">
-          <h2>Pending Access Requests (Super Admin Action)</h2>
-        </div>
-        
-        <div class="table-container">
-          <table class="clean-table" *ngIf="pendingAdmins.length > 0; else noPending">
+
+        <div class="table-container" *ngIf="!showInternshipForm">
+          <table class="clean-table" *ngIf="allInternships.length > 0; else noJobs">
             <thead>
               <tr>
-                <th>Applicant Name</th>
-                <th>Official Email</th>
-                <th>Requested Role</th>
-                <th>Designation</th>
-                <th>Action</th>
+                <th>Company & Role</th>
+                <th>Stipend</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Applicants</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let admin of pendingAdmins">
-                <td><strong>{{ admin.name }}</strong></td>
-                <td>{{ admin.email }}</td>
-                <td>{{ admin.role }}</td>
-                <td>{{ admin.designation }}</td>
+              <tr *ngFor="let job of allInternships">
                 <td>
-                  <button class="btn-small btn-success" (click)="approveUser(admin.id)">Approve</button>
+                  <strong>{{ job.company }}</strong><br>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">{{ job.role }}</span>
+                </td>
+                <td>{{ job.stipend }}</td>
+                <td>{{ job.deadline | date:'mediumDate' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="job.status === 'OPEN' ? 'badge-open' : 'badge-closed'">
+                    {{ job.status || 'OPEN' }}
+                  </span>
+                </td>
+                <td>
+                  <button class="btn-small btn-outline">View Candidates</button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <ng-template #noPending>
-            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
-              All admin requests have been processed. Systems secure.
+          <ng-template #noJobs>
+            <div style="padding: 3rem; text-align: center; color: var(--text-muted);">
+              No job drives have been posted yet. Click "Post New Opportunity" to get started.
             </div>
           </ng-template>
         </div>
@@ -129,8 +215,4 @@
 
     </div>
   </main>
-</div>
-
-<div *ngIf="isLoading" style="height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--primary-navy); font-weight: 600;">
-  Loading command center...
 </div>
