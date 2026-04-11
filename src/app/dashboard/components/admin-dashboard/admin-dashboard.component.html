@@ -1,0 +1,129 @@
+<div class="dashboard-layout" *ngIf="!isLoading">
+  
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>TCET <span>Command</span></h2>
+    </div>
+    
+    <nav class="nav-menu">
+      <a href="#" class="nav-item active">
+        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+        Overview
+      </a>
+      <a href="#" class="nav-item">
+        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        Manage Students
+      </a>
+      <a href="#" class="nav-item">
+        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+        Job Drives
+      </a>
+      <a href="#" class="nav-item" *ngIf="isSuperAdmin">
+        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+        Approvals
+        <span class="badge badge-open" style="margin-left:auto; padding: 2px 8px;" *ngIf="pendingApprovalsCount > 0">{{ pendingApprovalsCount }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a (click)="logout()" class="nav-item logout" style="cursor: pointer;">
+        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+        Logout
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    
+    <header class="topbar">
+      <div class="search-bar">
+        <input type="text" placeholder="Search students, companies...">
+      </div>
+      <div class="user-profile">
+        <div class="avatar admin-avatar">{{ getInitials(adminData?.name) }}</div>
+        <div class="user-info">
+          <span class="name">{{ adminData?.name }}</span>
+          <span class="role">{{ adminData?.designation || 'TnP Admin' }}</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="welcome-section">
+        <h1>Admin Overview</h1>
+        <p>Monitor placement drives, student metrics, and pending system requests.</p>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon blue">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          </div>
+          <div class="metric-data">
+            <h3>{{ totalStudents }}</h3>
+            <p>Total Registered Students</p>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon green">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          </div>
+          <div class="metric-data">
+            <h3>{{ activeInternshipsCount }}</h3>
+            <p>Active Job Drives</p>
+          </div>
+        </div>
+        <div class="metric-card" *ngIf="isSuperAdmin">
+          <div class="metric-icon orange">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          </div>
+          <div class="metric-data">
+            <h3>{{ pendingApprovalsCount }}</h3>
+            <p>Pending Admin Requests</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-section" *ngIf="isSuperAdmin">
+        <div class="section-header">
+          <h2>Pending Access Requests (Super Admin Action)</h2>
+        </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="clean-table" *ngIf="pendingAdmins.length > 0; else noPending">
+            <thead>
+              <tr>
+                <th>Applicant Name</th>
+                <th>Official Email</th>
+                <th>Requested Role</th>
+                <th>Designation</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let admin of pendingAdmins">
+                <td><strong>{{ admin.name }}</strong></td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.role }}</td>
+                <td>{{ admin.designation }}</td>
+                <td>
+                  <button class="btn-small btn-success" (click)="approveUser(admin.id)">Approve</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noPending>
+            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+              All admin requests have been processed. Systems secure.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    
+  </main>
+</div>
+
+<div *ngIf="isLoading" style="height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--primary-navy); font-weight: 600;">
+  Loading command center...
+</div>

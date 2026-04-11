@@ -9,12 +9,14 @@ import { SharedModule } from './shared/shared.module';
 
 import { httpInterceptorProviders } from './shared/interceptors';
 import { LandingComponent } from './landing/landing.component';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     CoreModule,

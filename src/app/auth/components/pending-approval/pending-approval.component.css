@@ -1,0 +1,138 @@
+.auth-container.centered-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #F8FAFC;
+  padding: 2rem;
+  position: relative;
+}
+
+.top-nav {
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+}
+
+.top-nav h2 {
+  font-family: var(--font-heading);
+  color: var(--primary-navy);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.top-nav span {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pending-card {
+  background: var(--bg-white);
+  padding: 4rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 650px;
+  width: 100%;
+  text-align: center;
+}
+
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+  background-color: #F1F5F9;
+  padding: 1.5rem;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.status-icon {
+  width: 50px;
+  height: 50px;
+  color: var(--primary-navy);
+}
+
+.hourglass-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: var(--bg-white);
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.status-text {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  letter-spacing: 1.5px;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: var(--primary-navy);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  background-color: #F8FAFC;
+  border-left: 4px solid var(--primary-navy);
+  padding: 1.5rem;
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.info-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.info-text strong {
+  display: block;
+  color: var(--primary-navy);
+  margin-bottom: 0.25rem;
+}
+
+.info-text span {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.patience-text {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.footer-support {
+  position: absolute;
+  bottom: 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.footer-support a {
+  color: var(--primary-navy);
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,1 +1,52 @@
-<p>login works!</p>
+<div class="auth-container">
+  <div class="auth-sidebar">
+    <div class="brand">
+      <h2 routerLink="/">TCET <span>TNP</span></h2>
+    </div>
+    <div class="sidebar-content">
+      <h1>Welcome Back.</h1>
+      <p>Sign in to access your personalized dashboard, track your placement journey, or manage campus recruitment drives.</p>
+    </div>
+    <div class="sidebar-footer">
+      <p>&copy; 2026 TCET Placement Cell.</p>
+    </div>
+  </div>
+
+  <div class="auth-main">
+    <div class="form-wrapper">
+      <div class="form-header">
+        <h2>Secure Login</h2>
+        <p>Don't have an account? <a routerLink="/auth/register">Create one here</a></p>
+      </div>
+
+      <div class="role-toggle">
+        <button type="button" [class.active]="activeTab === 'student'" (click)="switchTab('student')">Student</button>
+        <button type="button" [class.active]="activeTab === 'admin'" (click)="switchTab('admin')">Administrator</button>
+      </div>
+
+      <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group full-width">
+          <label>Registered Email</label>
+          <input type="email" formControlName="email" placeholder="Enter your email address">
+        </div>
+
+        <div class="form-group full-width">
+          <div class="password-header">
+            <label>Password</label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+          <input type="password" formControlName="password" placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn btn-primary submit-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Authenticating...' : 'Sign In &rarr;' }}
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

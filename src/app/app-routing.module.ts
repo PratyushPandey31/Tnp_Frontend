@@ -4,6 +4,7 @@ import { LandingComponent } from './landing/landing.component';
 const routes: Routes = [
   { path: '', component: LandingComponent }, // The landing page
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) }
   // Dashboard routes will go here later
 ];
 

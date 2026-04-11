@@ -1,1 +1,66 @@
-<p>register works!</p>
+<div class="auth-container">
+  <div class="auth-sidebar">
+    <div class="brand">
+      <h2 routerLink="/">TCET <span>TNP</span></h2>
+    </div>
+    <div class="sidebar-content">
+      <h1 *ngIf="activeTab === 'student'">Create Your Professional Identity.</h1>
+      <h1 *ngIf="activeTab === 'admin'">Join the Command Center.</h1>
+      <p>Secure your access to the Academic Vanguard Placement Cell. Complete your profile to manage and track placement activities.</p>
+    </div>
+    <div class="sidebar-footer">
+      <p>&copy; 2026 TCET Placement Cell.</p>
+    </div>
+  </div>
+
+  <div class="auth-main">
+    <div class="form-wrapper">
+      <div class="form-header">
+        <h2>Registration Portal</h2>
+        <p>Already have an account? <a routerLink="/auth/login">Sign In here</a></p>
+      </div>
+
+      <div class="role-toggle">
+        <button type="button" [class.active]="activeTab === 'student'" (click)="switchTab('student')">Student</button>
+        <button type="button" [class.active]="activeTab === 'admin'" (click)="switchTab('admin')">Administrator</button>
+      </div>
+
+      <div class="alert error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <form *ngIf="activeTab === 'student'" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <div class="form-group"><label>TNP Roll No</label><input type="text" formControlName="tnprollNo" placeholder="TNP-2026-001"></div>
+          <div class="form-group"><label>Full Name</label><input type="text" formControlName="name" placeholder="John Doe"></div>
+          <div class="form-group"><label>Institution Email</label><input type="email" formControlName="email" placeholder="student@tcet.in"></div>
+          <div class="form-group"><label>Password</label><input type="password" formControlName="password" placeholder="••••••••"></div>
+          <div class="form-group">
+            <label>Branch</label>
+            <select formControlName="branch">
+              <option value="" disabled selected>Select Branch</option>
+              <option value="COMP">COMP</option><option value="IT">IT</option>
+              <option value="AI_DS">AI & DS</option><option value="E&TC">E&TC</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Passing Year</label><input type="number" formControlName="year" placeholder="2026"></div>
+          <div class="form-group"><label>Current CGPA</label><input type="number" step="0.01" formControlName="cgpa" placeholder="9.25"></div>
+          <div class="form-group"><label>Top Skills</label><input type="text" formControlName="skills" placeholder="Java, React"></div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn" [disabled]="isLoading">{{ isLoading ? 'Processing...' : 'Register as Student &rarr;' }}</button>
+      </form>
+
+      <form *ngIf="activeTab === 'admin'" [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <div class="form-group"><label>Full Name</label><input type="text" formControlName="name" placeholder="Dr. Jane Smith"></div>
+          <div class="form-group"><label>Official Email</label><input type="email" formControlName="email" placeholder="admin@tcet.in"></div>
+          <div class="form-group"><label>Role</label><input type="text" formControlName="role" placeholder="e.g. Placement Officer"></div>
+          <div class="form-group"><label>Designation</label><input type="text" formControlName="designation" placeholder="e.g. TPO Head"></div>
+          <div class="form-group full-width"><label>Secure Password</label><input type="password" formControlName="passwordHash" placeholder="••••••••"></div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn" [disabled]="isLoading">{{ isLoading ? 'Processing...' : 'Request Admin Access &rarr;' }}</button>
+      </form>
+
+    </div>
+  </div>
+</div>

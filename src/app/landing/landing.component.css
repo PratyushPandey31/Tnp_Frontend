@@ -321,3 +321,20 @@
   background-color: #F1F5F9;
   color: var(--primary-navy);
 }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-login {
+  text-decoration: none;
+  color: var(--bg-white);
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.nav-login:hover {
+  color: var(--accent-blue);
+}
