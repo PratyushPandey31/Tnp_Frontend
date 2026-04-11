@@ -1,3 +1,11 @@
+<div class="recent-section" *ngIf="isSuperAdmin">
+        <div class="section-header">
+          <h2>Pending Access Requests (Super Admin Action)</h2>
+        </div>
+        </div> <div class="table-container"> ```
+
+
+
 <div class="dashboard-layout" *ngIf="!isLoading">
   
   <aside class="sidebar">
@@ -83,11 +91,9 @@
           </div>
         </div>
       </div>
-
       <div class="recent-section" *ngIf="isSuperAdmin">
         <div class="section-header">
           <h2>Pending Access Requests (Super Admin Action)</h2>
-        </div>
         </div>
         
         <div class="table-container">
@@ -120,7 +126,8 @@
           </ng-template>
         </div>
       </div>
-    
+
+    </div>
   </main>
 </div>
 

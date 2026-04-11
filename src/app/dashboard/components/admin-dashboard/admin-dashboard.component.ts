@@ -22,14 +22,14 @@ export class AdminDashboardComponent implements OnInit {
   // Tables
   pendingAdmins: any[] = [];
 
+  // Security Flags
+  isSuperAdmin = false;
+  readonly SUPER_ADMIN_EMAIL = 'engineerindmind1209@gmail.com'; 
+
   constructor(
     private dashboardService: AdminDashboardService,
     private router: Router
   ) {}
-
-  isSuperAdmin = false;
-  readonly SUPER_ADMIN_EMAIL = 'engineerindmind1209@gmail.com'; 
-
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -38,16 +38,21 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
 
-    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-    const adminId = tokenPayload.id;
+    try {
+      // Decode the JWT Payload safely
+      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      const adminId = tokenPayload.id;
+      const userEmail = tokenPayload.sub; 
 
-    // JWT stores the email in the 'sub' (subject) field based on our JwtUtil.java
-    const userEmail = tokenPayload.sub; 
-    
-    // Set the security flag
-    this.isSuperAdmin = (userEmail === this.SUPER_ADMIN_EMAIL);
+      // Set the security flag based on the exact email match
+      this.isSuperAdmin = (userEmail === this.SUPER_ADMIN_EMAIL);
 
-    this.loadDashboardData(adminId);
+      // Fetch the dashboard data
+      this.loadDashboardData(adminId);
+    } catch (error) {
+      console.error("Error parsing JWT token", error);
+      this.logout(); // Force logout if token is corrupted
+    }
   }
 
   loadDashboardData(adminId: number) {
