@@ -6,23 +6,25 @@
     </div>
     
     <nav class="nav-menu">
-      <a href="#" class="nav-item active">
+      <a (click)="switchView('overview')" class="nav-item" [class.active]="currentView === 'overview'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
         Dashboard
       </a>
-      <a href="#" class="nav-item">
+      <a (click)="switchView('internships')" class="nav-item" [class.active]="currentView === 'internships'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
         Internships
       </a>
-      <a href="#" class="nav-item">
+      <a (click)="switchView('applications')" class="nav-item" [class.active]="currentView === 'applications'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-        Applications
+        My Applications
       </a>
-      <a href="#" class="nav-item">
+      <!-- UNLOCKED: Sessions -->
+      <a (click)="switchView('sessions')" class="nav-item" [class.active]="currentView === 'sessions'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
         Sessions
       </a>
-      <a href="#" class="nav-item">
+      <!-- UNLOCKED: Resources -->
+      <a (click)="switchView('resources')" class="nav-item" [class.active]="currentView === 'resources'" style="cursor: pointer;">
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
         Resources
       </a>
@@ -56,84 +58,332 @@
     </header>
 
     <div class="content-wrapper">
-      <div class="welcome-section">
-        <h1>Welcome back, {{ studentData?.name.split(' ')[0] }}!</h1>
-        <p>Here is what's happening with your placement preparations today.</p>
+      
+      <!-- ========================================== -->
+      <!-- TAB 1: OVERVIEW                            -->
+      <!-- ========================================== -->
+      <div *ngIf="currentView === 'overview'">
+        <div class="welcome-section">
+          <h1>Welcome back, {{ studentData?.name?.split(' ')[0] || 'Student' }}!</h1>
+          <p>Here is what's happening with your placement preparations today.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon blue">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ activeInternshipsCount }}</h3>
+              <p>Active Internships</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon green">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ applicationsCount }}</h3>
+              <p>Applications Submitted</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon orange">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ upcomingSessionsCount }}</h3>
+              <p>Upcoming Sessions</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon purple">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+            </div>
+            <div class="metric-data">
+              <h3>{{ activeContestsCount }}</h3>
+              <p>Active Contests</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-section">
+          <div class="section-header">
+            <h2>Recent Opportunities</h2>
+            <a (click)="switchView('internships')" class="view-all" style="cursor: pointer;">View All</a>
+          </div>
+          
+          <div class="table-container">
+            <table class="clean-table" *ngIf="recentInternships.length > 0; else noInternships">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Role</th>
+                  <th>Deadline</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let job of recentInternships">
+                  <td><strong>{{ job.company }}</strong></td>
+                  <td>{{ job.role }}</td>
+                  <td>{{ job.deadline | date:'MMM d, yyyy' }}</td>
+                  <td>
+                    <button class="btn-small" 
+                            [ngClass]="{'btn-disabled': hasApplied(job.id)}"
+                            [disabled]="hasApplied(job.id) || isApplying" 
+                            (click)="applyForJob(job)">
+                      {{ hasApplied(job.id) ? 'Applied ✓' : 'Apply' }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #noInternships>
+              <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                No active internships posted by admins yet.
+              </div>
+            </ng-template>
+          </div>
+        </div>
       </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon blue">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ activeInternshipsCount }}</h3>
-            <p>Active Internships</p>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon green">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ applicationsCount }}</h3>
-            <p>Applications Submitted</p>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon orange">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ upcomingSessionsCount }}</h3>
-            <p>Upcoming Sessions</p>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon purple">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-          </div>
-          <div class="metric-data">
-            <h3>{{ activeContestsCount }}</h3>
-            <p>Active Contests</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="recent-section">
-        <div class="section-header">
-          <h2>New Opportunities</h2>
-          <a href="#" class="view-all">View All</a>
+      <!-- ========================================== -->
+      <!-- TAB 2: INTERNSHIPS                         -->
+      <!-- ========================================== -->
+      <div *ngIf="currentView === 'internships'">
+        <div class="section-header" style="margin-bottom: 2rem;">
+          <h1>All Open Job Drives</h1>
         </div>
         
         <div class="table-container">
-          <table class="clean-table" *ngIf="recentInternships.length > 0; else noInternships">
+          <table class="clean-table" *ngIf="allInternships.length > 0; else noInternshipsFull">
             <thead>
               <tr>
-                <th>Company</th>
-                <th>Role</th>
+                <th>Company & Role</th>
+                <th>Stipend</th>
+                <th>Eligibility</th>
                 <th>Deadline</th>
-                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let job of recentInternships">
-                <td><strong>{{ job.company }}</strong></td>
-                <td>{{ job.role }}</td>
-                <td>{{ job.deadline | date:'MMM d, y' }}</td>
-                <td><span class="badge badge-open">{{ job.status || 'Open' }}</span></td>
-                <td><button class="btn-small">Apply</button></td>
+              <tr *ngFor="let job of allInternships">
+                <td>
+                  <strong>{{ job.company }}</strong><br>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">{{ job.role }}</span>
+                </td>
+                <td>{{ job.stipend }}</td>
+                <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ job.eligibility }}</td>
+                <td>{{ job.deadline | date:'mediumDate' }}</td>
+                <td>
+                  <button class="btn-small" 
+                          [ngClass]="{'btn-disabled': hasApplied(job.id)}"
+                          [disabled]="hasApplied(job.id) || isApplying" 
+                          (click)="applyForJob(job)">
+                    {{ hasApplied(job.id) ? 'Applied ✓' : 'Apply Now' }}
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
-          <ng-template #noInternships>
+          <ng-template #noInternshipsFull>
             <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
-              No active internships posted by admins yet.
+              No active internships available at the moment. Check back later!
             </div>
           </ng-template>
         </div>
       </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: APPLICATIONS                        -->
+      <!-- ========================================== -->
+      <div *ngIf="currentView === 'applications'">
+        <div class="section-header" style="margin-bottom: 2rem;">
+          <h1>Application Tracker</h1>
+        </div>
+        
+        <div class="table-container">
+          <table class="clean-table" *ngIf="myApplications.length > 0; else noApplications">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Date Applied</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let app of myApplications">
+                <td><strong>{{ app.internshipCompany }}</strong></td>
+                <td>{{ app.internshipRole }}</td>
+                <td>{{ app.appliedAt | date:'mediumDate' }}</td>
+                <td>
+                 <span class="badge" 
+                    [ngClass]="{
+                      'badge-open': app.status === 'PENDING' || app.status === 'APPLIED' || app.status === 'Applied',
+                      'badge-success': app.status === 'SHORTLISTED',
+                      'badge-closed': app.status === 'REJECTED'
+                    }">
+                    {{ app.status | uppercase }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noApplications>
+            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+              You haven't applied to any internships yet. Head over to the Internships tab!
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: SESSIONS (NEW)                      -->
+      <!-- ========================================== -->
+      <div *ngIf="currentView === 'sessions'">
+        <div class="section-header" style="margin-bottom: 2rem;">
+          <h1>Sessions & Masterclasses</h1>
+          <p>Register for upcoming technical seminars and guest lectures.</p>
+        </div>
+        
+        <div class="table-container" style="margin-bottom: 3rem;">
+          <table class="clean-table" *ngIf="allSessions.length > 0; else noSessions">
+            <thead>
+              <tr>
+                <th>Topic & Speaker</th>
+                <th>Date & Time</th>
+                <th>Venue / Link</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let session of allSessions">
+                <td>
+                  <strong>{{ session.title }}</strong><br>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">By {{ session.speaker }}</span>
+                </td>
+                <td>{{ session.sessionDatetime | date:'medium' }}</td>
+                <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  {{ hasRegistered(session.id) ? session.joinUrl : 'Register to View' }}
+                </td>
+                <td>
+                  <button class="btn-small" 
+                          [ngClass]="{'btn-disabled': hasRegistered(session.id)}"
+                          [disabled]="hasRegistered(session.id) || isRegistering" 
+                          (click)="registerForSession(session)">
+                    {{ hasRegistered(session.id) ? 'Registered ✓' : 'Register' }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noSessions>
+            <div style="padding: 3rem; text-align: center; color: var(--text-muted);">
+              No sessions are currently scheduled.
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- My Registered Sessions -->
+        <div class="section-header" style="margin-bottom: 1rem;" *ngIf="myRegistrations.length > 0">
+          <h2>My Registered Sessions</h2>
+        </div>
+        <div class="table-container" *ngIf="myRegistrations.length > 0">
+          <table class="clean-table">
+            <thead>
+              <tr>
+                <th>Session Title</th>
+                <th>Date & Time</th>
+                <th>Registration Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let reg of myRegistrations">
+                <td><strong>{{ reg.sessionTitle }}</strong></td>
+                <td>{{ reg.sessionDatetime | date:'medium' }}</td>
+                <td><span class="badge badge-success">{{ reg.status || 'REGISTERED' }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: RESOURCES & NOTES (NEW)             -->
+      <!-- ========================================== -->
+      <div *ngIf="currentView === 'resources'">
+        
+        <!-- Smart Branch Notes -->
+        <div class="section-header" style="margin-bottom: 1rem;">
+          <div>
+            <h1>My Study Materials</h1>
+            <p>Notes specifically curated for {{ studentData?.branch }} (Year {{ studentData?.year }})</p>
+          </div>
+        </div>
+        <div class="table-container" style="margin-bottom: 3rem;">
+          <table class="clean-table" *ngIf="myBranchNotes.length > 0; else noNotes">
+            <thead>
+              <tr>
+                <th>Topic</th>
+                <th>Description</th>
+                <th>Uploaded</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let note of myBranchNotes">
+                <td><strong>{{ note.title }}</strong></td>
+                <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ note.description }}</td>
+                <td>{{ note.uploadedAt | date:'mediumDate' }}</td>
+                <td>
+                  <a [href]="note.fileUrl" target="_blank" class="btn-small btn-outline" style="text-decoration: none; display: inline-block;">Access File</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noNotes>
+            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+              No specific notes have been uploaded for your branch and year yet.
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Global Resources -->
+        <div class="section-header" style="margin-bottom: 1rem;">
+          <h2>Global TnP Resources</h2>
+        </div>
+        <div class="table-container">
+          <table class="clean-table" *ngIf="allResources.length > 0; else noResources">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let res of allResources">
+                <td><strong>{{ res.title }}</strong></td>
+                <td><span class="badge badge-open">{{ res.type }}</span></td>
+                <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ res.description }}</td>
+                <td>
+                  <a [href]="res.fileUrl" target="_blank" class="btn-small btn-outline" style="text-decoration: none; display: inline-block;">Open Link</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noResources>
+            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+              No global resources available at the moment.
+            </div>
+          </ng-template>
+        </div>
+
+      </div>
+
     </div>
   </main>
 </div>

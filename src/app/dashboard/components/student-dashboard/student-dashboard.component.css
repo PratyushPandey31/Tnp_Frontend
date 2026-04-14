@@ -302,3 +302,23 @@
 .metric-icon.green svg { color: #16A34A; }
 .metric-icon.orange svg { color: #EA580C; }
 .metric-icon.purple svg { color: #9333EA; }
+
+.btn-disabled {
+  background-color: #CBD5E1;
+  color: #475569;
+  cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+  background-color: #CBD5E1;
+}
+
+.badge-success {
+  background-color: #F0FDF4;
+  color: #16A34A;
+}
+
+.badge-closed {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
